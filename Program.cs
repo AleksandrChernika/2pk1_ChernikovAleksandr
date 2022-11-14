@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace praktika_12
+namespace praktika_12 //Практика 12
 {
     internal class Program
     {
