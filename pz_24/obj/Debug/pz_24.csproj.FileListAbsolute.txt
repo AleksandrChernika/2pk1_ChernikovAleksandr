@@ -1,8 +1,0 @@
-C:\Users\chernikov.aa1673\Source\Repos\2pk1_ChernikovAleksandr\pz_24\pz_24\bin\Debug\pz_24.exe.config
-C:\Users\chernikov.aa1673\Source\Repos\2pk1_ChernikovAleksandr\pz_24\pz_24\bin\Debug\pz_24.exe
-C:\Users\chernikov.aa1673\Source\Repos\2pk1_ChernikovAleksandr\pz_24\pz_24\bin\Debug\pz_24.pdb
-C:\Users\chernikov.aa1673\Source\Repos\2pk1_ChernikovAleksandr\pz_24\pz_24\obj\Debug\pz_24.csproj.AssemblyReference.cache
-C:\Users\chernikov.aa1673\Source\Repos\2pk1_ChernikovAleksandr\pz_24\pz_24\obj\Debug\pz_24.csproj.SuggestedBindingRedirects.cache
-C:\Users\chernikov.aa1673\Source\Repos\2pk1_ChernikovAleksandr\pz_24\pz_24\obj\Debug\pz_24.csproj.CoreCompileInputs.cache
-C:\Users\chernikov.aa1673\Source\Repos\2pk1_ChernikovAleksandr\pz_24\pz_24\obj\Debug\pz_24.exe
-C:\Users\chernikov.aa1673\Source\Repos\2pk1_ChernikovAleksandr\pz_24\pz_24\obj\Debug\pz_24.pdb
