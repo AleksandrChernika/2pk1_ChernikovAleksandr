@@ -1,0 +1,129 @@
+    public DbSet<Product> Products { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        // Замените строку подключения на свою!
+        optionsBuilder.UseSqlServer(@"Server=192.168.147.54;Database=MyShopDB;User Id = is;Password=1;TrustServerCertificate=true");
+    }
+}
+Update-Database
+Add-Migration InitialCreate
+private void BtnLogin_Click(object sender, RoutedEventArgs e)
+    {
+        string username = txtUsername.Text;
+        string password = txtPassword.Password;
+
+        using (var db = new AppDbContext())
+        {
+            // Проверка пользователя (в реальном приложении использовать хеши!)
+            if (db.Users.Any(u => u.Username == username && u.Password == password))
+            {
+                new MainWindow().Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Неверный логин или пароль");
+            }
+        }
+    }
+public partial class MainWindow : Window
+{
+    private AppDbContext db;
+
+    public MainWindow()
+    {
+        InitializeComponent();
+        db = new AppDbContext();
+        LoadData();
+    }
+
+    private void LoadData()
+    {
+        dataGrid.ItemsSource = db.Products.ToList();
+    }
+
+    private void BtnAdd_Click(object sender, RoutedEventArgs e)
+    {
+        var editWindow = new ProductEditWindow();
+        if (editWindow.ShowDialog() == true)
+        {
+            db.Products.Add(editWindow.Product);
+            db.SaveChanges();
+            LoadData();
+        }
+    }
+
+    private void BtnEdit_Click(object sender, RoutedEventArgs e)
+    {
+        if (dataGrid.SelectedItem is Product selectedProduct)
+        {
+            var editWindow = new ProductEditWindow(selectedProduct);
+            if (editWindow.ShowDialog() == true)
+            {
+                db.SaveChanges();
+                LoadData();
+            }
+        }
+    }
+
+    private void BtnDelete_Click(object sender, RoutedEventArgs e)
+    {
+        if (dataGrid.SelectedItem is Product selectedProduct)
+        {
+            db.Products.Remove(selectedProduct);
+            db.SaveChanges();
+            LoadData();
+        }
+    }
+
+    private void BtnRefresh_Click(object sender, RoutedEventArgs e)
+    {
+        LoadData();
+    }
+}
+public partial class ProductEditWindow : Window
+{
+    public Product Product { get; private set; }
+
+    public ProductEditWindow()
+    {
+        InitializeComponent();
+        Product = new Product();
+        DataContext = Product;
+    }
+
+    public ProductEditWindow(Product product) : this()
+    {
+        // Создаем копию для редактирования
+        Product = new Product
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Price = product.Price,
+            Quantity = product.Quantity
+        };
+        DataContext = Product;
+    }
+
+    private void Save_Click(object sender, RoutedEventArgs e)
+    {
+        DialogResult = true;
+        Close();
+    }
+
+    private void Cancel_Click(object sender, RoutedEventArgs e)
+    {
+        DialogResult = false;
+        Close();
+    }
+}
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    // Настройка связи 1-ко-многим: Category -> Products
+    modelBuilder.Entity<Product>()
+        .HasOne(p => p.Category)           // У продукта одна категория
+        .WithMany(c => c.Products)         // У категории много продуктов
+        .HasForeignKey(p => p.CategoryId)  // Внешний ключ
+        .OnDelete(DeleteBehavior.Cascade); // Поведение при удалении (опционально)
+}
